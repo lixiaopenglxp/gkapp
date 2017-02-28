@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html ng-app="aaa" >
+<head>
+    <meta charset="UTF-8">
+    <title>智能社——http://www.zhinengshe.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/swiper.css">
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <style >
+       .bbb{
+        background: #000;
+       }
+    </style>
+</head>
+<body>
+    <div id="box">
+           <header>
+               <a href="javascript:;" class="menu">logo</a>
+               <h1>Guokr.com</h1>
+               <a href="javascript:;" class="pc">pc</a>
+            </header>
+            <section>
+                <div class="user">
+                    <div class="user_left"><span class="bg1"></span><a href="javascript:;" >用户登录</a></div>
+                    <div class="user_right"><span class="bg2"></span><a href="javascript:;" >用户注册</a></div>
+                </div>
+                <div class="swiper-container banner">
+                     <ul class="swiper-wrapper">
+                        <li class="swiper-slide"><a href="javascript:;"><img src="img/1.jpg"><h4>到底什么是最美的科学公式？</h4></a></li>
+                        <li class="swiper-slide"><a href="javascript:;"><img src="img/2.jpg"><h4>你最美</h4></a></li>
+                        <li class="swiper-slide"><a href="javascript:;"><img src="img/3.jpg"><h4>谁是最可爱的人哪</h4></a></li>
+                        <li class="swiper-slide"><a href="javascript:;"><img src="img/4.jpg"><h4>世界那么大</h4></a></li>
+                        <li class="swiper-slide"><a href="javascript:;"><img src="img/5.jpg"><h4>最美丽的青年</h4></a></li>
+                     </ul>
+                </div>           
+                <div class="news1">
+                     <ul id="ul" ng-controller="show" >
+                            <li ng-repeat="x in arr" ng-class="{last_border:$index==6}"><a href="javascript:;">{{x.content}}</a></li>                     
+                    </ul>
+                </div>
+                <div class="hotques">
+                    <h2>热门问答</h2>
+                    <a href="javascript:;"></a>
+                </div>
+                <div class="news2" ng-controller='show2'>
+                      <nav>
+                         <ul class="news2_title" id="nav">
+                             <li ng-click="fnclick()"><a  href="javascript:;">科技</a></li>
+                             <li ng-click="fnclick()"><a href="javascript:;">生活</a></li>
+                             <li ng-click="fnclick()"><a href="javascript:;">人文</a></li>
+                             <li ng-click="fnclick()"><a href="javascript:;">自然</a></li>
+                         </ul>
+                      </nav>
+                      <div class="new2box">
+                           <div class="new2inbox">
+                               <ul id="technology" class="new2_contect" >
+                                  <li class="first-news">
+                                      <dt><a href="javascript:;">{{arr2.content}}</a></dt>
+                                      <dd><a href="javascript:;"><img ng-src="{{arr2.url}}"/></a><a class="word" href="javascript:;">{{arr2.content}}{{arr2.content}}{{arr2.content}}{{arr2.content}}</a></dd>
+                                  </li>
+                                  <li class="nomal_news" ng-repeat="x in arr3"><a href="javascript:;">{{x.content}}</a></li>
+            
+                              </ul>
+                              <ul id="life"></ul>
+                              <ul id="humanity"></ul>
+                              <ul id="natural"></ul>
+                           </div>
+                      </div>
+                </div>
+                <div id="backtop" class="backtop">
+                     <span class="bg-top"></span><a href="#">回到顶部</a>
+                </div>
+            </section>
+            
+            <footer class="footer" id="123">
+                    <div class="user_left"><span class="bg1"></span><a href="javascript:;" >用户登录</a></div>
+                    <div class="user_right"><span class="bg2"></span><a href="javascript:;" >用户注册</a></div>
+        </footer>
+    </div>
+</body>
+   <script src="js/swiper.min.js"></script>
+    <script src="js/swiper.js"></script>
+    <script src="js/zepoto.min.js"></script>
+    <script src="js/angular.js"></script>
+   <script>
+           
+          // 弹性
+          document.documentElement.style.fontSize=20*document.documentElement.clientWidth/320+'px';
+          window.onresize=function(){
+            document.documentElement.style.fontSize=20*document.documentElement.clientWidth/320+'px';
+          }
+          //banner 
+           var mySwiper = new Swiper('.swiper-container', {
+                autoplay: 1000,//可选选项，自动滑动
+            })
+      var oNav=document.getElementById('nav');
+      var aLi=oNav.getElementsByTagName('a');
+      for(var i=0;i<aLi.length;i++){
+        aLi[i].onclick=function(){
+           for(var i=0;i<aLi.length;i++){
+            aLi[i].className='';
+           }
+            
+            this.className='active';
+        }
+      }
+    </script>
+ <script>
+	// 1、创建一个模块
+	var app = angular.module('aaa', []);
+	// 2、定义控制器
+	app.controller('show',function($scope,$http){
+			$http.get('https://bird.ioliu.cn/joke/rand?type=text').success(function(data){  
+                
+                $scope.arr=data.data.splice(0,7)               
+			}) 
+	}) 
+  app.controller('show2',function($scope,$http){
+      $http.get('https://bird.ioliu.cn/joke/rand').success(function(data){ 
+              console.log(data.data)
+           $scope.arr2=data.data[0]
+           $scope.arr3=data.data.splice(1,4)         
+      })
+   
+      $scope.fnclick=function(){
+         $http.get('https://bird.ioliu.cn/joke/rand').success(function(data){ 
+              console.log(data.data)
+           $scope.arr2=data.data[0]
+           $scope.arr3=data.data.splice(1,4)         
+        })
+      }
+  })
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
